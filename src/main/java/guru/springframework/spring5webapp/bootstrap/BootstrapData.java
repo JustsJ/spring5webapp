@@ -25,11 +25,15 @@ public class BootstrapData implements CommandLineRunner {
     @Override
     public void run(String... args) {
 
+        Publisher penguin = new Publisher("Penguin Random House","Somewhere in UK");
+        publisherRepository.save(penguin);
+
         Author eric = new Author("Eric","Evans");
         Book ddd = new Book("Domain Driven Design","123123");
 
         eric.getBooks().add(ddd);
         ddd.getAuthors().add(eric);
+        ddd.setPublisher(penguin);
 
         authorRepository.save(eric);
         bookRepository.save(ddd);
@@ -39,11 +43,13 @@ public class BootstrapData implements CommandLineRunner {
 
         rod.getBooks().add(noEJB);
         noEJB.getAuthors().add(rod);
+        noEJB.setPublisher(penguin);
 
         authorRepository.save(rod);
         bookRepository.save(noEJB);
 
-        Publisher penguin = new Publisher("Penguin Random House","Somewhere in UK");
+        penguin.getBooks().add(ddd);
+        penguin.getBooks().add(noEJB);
         publisherRepository.save(penguin);
 
         System.out.println("Started in Boostrap");
